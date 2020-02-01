@@ -10,7 +10,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 # Symlink bash config file
 
-[ -e ~/.bashrc ] || ln -s $DIR/bashrc ~/.bashrc
+ln -sf $DIR/bashrc ~/.bashrc
 
 # Symlink tmuux config file
 
@@ -27,4 +27,8 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 # Symlink i3 config file
 
 [ -e ~/.config/i3 ] || ln -sf $DIR/i3 ~/.config/i3
+
+# Symlink i3blocks config file
+
+[ -e ~/.config/i3blocks ] || ln -sf $DIR/i3blocks ~/.config/i3blocks
 
