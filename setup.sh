@@ -24,3 +24,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 [ -e ~/.config/nvim ] || ln -sf $DIR/nvim ~/.config/nvim
 
+# Symlink i3 config file
+
+[ -e ~/.config/i3 ] || ln -sf $DIR/i3 ~/.config/i3
+
