@@ -6,7 +6,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 # Necessaries packages
 
-sudo pacman -S --needed neovim tmux
+sudo pacman -S --needed neovim tmux scrot imagemagick
 
 # Yay installation for yaourt packages
 
