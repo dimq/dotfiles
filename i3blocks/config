@@ -27,7 +27,13 @@
 # Change $SCRIPT_DIR to the location of your scripts!
 command=$SCRIPT_DIR/$BLOCK_NAME
 separator_block_width=15
-markup=none
+markup=pango
+
+# Arch Updates
+
+[arch-update]
+command=~/.config/i3blocks/arch-update/arch-update
+
 
 # Volume indicator
 #
@@ -49,6 +55,7 @@ signal=10
 label=MEM
 separator=false
 interval=30
+command=~/.config/memory/memory
 
 [memory]
 label=SWAP
@@ -62,9 +69,10 @@ interval=30
 # The script may be called with a optional argument to set the alert
 # (defaults to 10 for 10%).
 [disk]
-label=HOME
+label=HOME 
 #DIR=/mnt/data
 interval=30
+command=~/.config/i3blocks/disk/disk
 
 # Network interface monitoring
 #
@@ -74,17 +82,20 @@ interval=30
 #IFACE=wlan0
 color=#00FF00
 interval=10
-separator=false
+separator=true
+command=~/.config/i3blocks/iface/iface
 
 [wifi]
 #INTERFACE=wlp3s0
 label=wifi:
 interval=10
 separator=false
+command=~/.config/i3blocks/wifi/wifi
 
 [bandwidth]
 #INTERFACE=eth0
 interval=5
+command=~/.config/i3blocks/bandwidth/bandwidth
 
 # CPU usage
 #
@@ -94,6 +105,7 @@ interval=5
 label=CPU
 interval=10
 min_width=CPU 100.00%
+command=~/.config/i3blocks/cpu_usage/cpu_usage
 #separator=false
 
 [load_average]
@@ -157,3 +169,7 @@ interval=5
 #markup=pango
 #interval=once
 #signal=11
+
+[public-ip]
+command=curl ifconfig.co
+interval=once

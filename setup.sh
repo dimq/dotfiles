@@ -37,9 +37,13 @@ ln -sf $DIR/bashrc ~/.bashrc
 
 [ -e ~/.config/i3 ] || ln -sf $DIR/i3 ~/.config/i3
 
+#Clone i3blocks repository
+
+[ -e ~/.config/i3blocks ] || git clone https://github.com/vivien/i3blocks-contrib.git ~/.config/i3blocks
+
 # Symlink i3blocks config file
 
-[ -e ~/.config/i3blocks ] || ln -sf $DIR/i3blocks ~/.config/i3blocks
+[ -e ~/.config/i3blocks/config ] || ln -sf $DIR/i3blocks/config ~/.config/i3blocks/config
 
 # Symlink i3lock script
 
