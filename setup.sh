@@ -6,15 +6,16 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 # Necessaries packages
 
-pacman -S neovim tmux
+sudo pacman -S --needed neovim tmux
 
 # Yay installation for yaourt packages
 
-git clone https://aur.archlinux.org/yay.git ~/yay
-
-cd ~/yay
-
-makepkg -si
+if ! [ -e ~/yay ]
+then
+    git clone https://aur.archlinux.org/yay.git ~/yay
+    cd ~/yay
+    makepkg -si
+fi
 
 # Symlink bash config file
 
@@ -39,4 +40,8 @@ ln -sf $DIR/bashrc ~/.bashrc
 # Symlink i3blocks config file
 
 [ -e ~/.config/i3blocks ] || ln -sf $DIR/i3blocks ~/.config/i3blocks
+
+# Symlink i3lock script
+
+[ -e ~/.scripts ] || ln -sf $DIR/scripts ~/.scripts
 
