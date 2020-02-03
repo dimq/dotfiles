@@ -11,3 +11,6 @@ PS1='[\u@\h \W]\$ '
 
 source /usr/share/git/completion/git-completion.bash
 source /usr/share/git/completion/git-prompt.sh
+
+export WG_QUICK_USERSPACE_IMPLEMENTATION=~/.cargo/bin/boringtun
+export WG_SUDO=1
