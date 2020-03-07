@@ -21,6 +21,10 @@ fi
 
 ln -sf $DIR/zshrc ~/.zshrc
 
+#Symlink profile config file
+
+ls -sf $DIR/profile ~/.profile
+
 # Symlink tmuux config file
 
 [ -e ~/.tmux.conf ] || ln -sf $DIR/tmux.conf ~/.tmux.conf
