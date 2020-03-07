@@ -19,7 +19,7 @@ fi
 
 # Symlink bash config file
 
-ln -sf $DIR/bashrc ~/.bashrc
+ln -sf $DIR/zshrc ~/.zshrc
 
 # Symlink tmuux config file
 
