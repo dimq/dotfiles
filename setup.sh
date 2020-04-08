@@ -17,9 +17,14 @@ then
     makepkg -si
 fi
 
+yay -S zsh zsh-completions oh-my-zsh-git fzf \
+	monaco-powerline-font-git otf-sfmono ttf-google-sans ttf-material-icons-git ttf-font-awesome ttf-ionicons \
+	firefox python zsh-dircolors-solarized 
+
 # Symlink bash config file
 
-ln -sf $DIR/zshrc ~/.zshrc
+ln -sf $DIR/shell/zshrc ~/.zshrc
+
 
 #Symlink profile config file
 
