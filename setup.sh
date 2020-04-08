@@ -19,7 +19,7 @@ fi
 
 yay -S zsh zsh-completions oh-my-zsh-git fzf \
 	monaco-powerline-font-git otf-sfmono ttf-google-sans ttf-material-icons-git ttf-font-awesome ttf-ionicons \
-	firefox python zsh-dircolors-solarized 
+	firefox python zsh-dircolors-solarized kubectl
 
 # Symlink bash config file
 
@@ -45,14 +45,6 @@ ls -sf $DIR/profile ~/.profile
 # Symlink i3 config file
 
 [ -e ~/.config/i3 ] || ln -sf $DIR/i3 ~/.config/i3
-
-#Clone i3blocks repository
-
-[ -e ~/.config/i3blocks ] || git clone https://github.com/vivien/i3blocks-contrib.git ~/.config/i3blocks
-
-# Symlink i3blocks config file
-
-[ -e ~/.config/i3blocks/config ] || ln -sf $DIR/i3blocks/config ~/.config/i3blocks/config
 
 # Symlink i3lock script
 
