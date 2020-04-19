@@ -43,6 +43,7 @@ Plug 'Yggdroot/indentLine'
 Plug 'avelino/vim-bootstrap-updater'
 Plug 'sheerun/vim-polyglot'
 Plug 'tpope/vim-rhubarb' " required by fugitive to :Gbrowse
+Plug 'ervandew/supertab'
 
 if isdirectory('/usr/local/opt/fzf')
   Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim'
@@ -176,6 +177,7 @@ let g:session_command_aliases = 1
 syntax on
 set ruler
 set number
+set relativenumber
 
 let no_buffers_menu=1
 silent! colorscheme molokai
@@ -633,7 +635,14 @@ if has('nvim')
     " Enable deoplete on startup
     let g:deoplete#enable_at_startup = 1
     inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+    inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 endif
 
 
+set completeopt=longest,menuone
+inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+inoremap <expr> <C-n> pumvisible() ? '<C-n>' :
+  \ '<C-n><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
 
+inoremap <expr> <M-,> pumvisible() ? '<C-n>' :
+  \ '<C-x><C-o><C-n><C-p><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
