@@ -71,6 +71,7 @@ DISABLE_AUTO_UPDATE="true"
 plugins=(
     git
     kube-ps1
+    helm
 )
 
 export EDITOR=nvim
