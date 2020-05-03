@@ -72,6 +72,7 @@ plugins=(
     git
     kube-ps1
     helm
+    docker
 )
 
 export EDITOR=nvim
