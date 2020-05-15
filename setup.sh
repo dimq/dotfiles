@@ -28,7 +28,7 @@ ln -sf $DIR/shell/zshrc ~/.zshrc
 
 #Symlink profile config file
 
-ln -sf $DIR/profile ~/.profile
+ln -sf $DIR/profile ~/.zprofile
 
 # Symlink tmuux config file
 

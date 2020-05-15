@@ -203,6 +203,7 @@ else
   
 endif
 
+xnoremap p pgvy
 
 
 "" Disable the blinking cursor.
@@ -571,6 +572,7 @@ let g:airline#extensions#virtualenv#enabled = 1
 " Default highlight is better than polyglot
 let g:polyglot_disabled = ['python']
 let python_highlight_all = 1
+let g:python3_host_prog = '/usr/bin/python'
 
 
 " rust
