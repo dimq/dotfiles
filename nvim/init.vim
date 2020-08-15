@@ -107,8 +107,15 @@ Plug 'racer-rust/vim-racer'
 " Rust.vim
 Plug 'rust-lang/rust.vim'
 
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'deoplete-plugins/deoplete-go', { 'do': 'make'}
+if has('nvim')
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+else
+  Plug 'Shougo/deoplete.nvim'
+  Plug 'roxma/nvim-yarp'
+  Plug 'roxma/vim-hug-neovim-rpc'
+  Plug 'deoplete-plugins/deoplete-go', { 'do': 'make'}
+endif
+
 Plug 'jodosha/vim-godebug' " Debugger integration via delve
 
 
@@ -635,8 +642,17 @@ endif
 if has('nvim')
     " Enable deoplete on startup
     let g:deoplete#enable_at_startup = 1
+    let g:deoplete#complete_method = "omnifunc"
+    call deoplete#custom#option('omni_patterns', {
+\ 'go': '[^. *\t]\.\w*',
+\})
+    let g:deoplete#sources#go#gocode_binary = $GOPATH.'/bin/gocode'
+let g:deoplete#sources#go#sort_class = ['package', 'func', 'type', 'var', 'const']
+
     inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
     inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+    imap <expr><CR> neosnippet#expandable() ? "\<Plug>(neosnippet_expand)" : pumvisible() ?
+\ "\<C-y>" : "\<CR>"
 endif
 
 
