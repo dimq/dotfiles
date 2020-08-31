@@ -93,9 +93,6 @@ SAVEHIST=1000
 # fzf
 source ~/dotfiles/shell/fzf.sh
 
-# # Kubernetes
-source ~/dotfiles/shell/kubernetes.sh
-
 # i3: stay in current directory when opening a new terminal
 export PROMPT_COMMAND="pwd > /tmp/whereami"
 precmd() { eval "$PROMPT_COMMAND" }
@@ -145,6 +142,3 @@ alias k=kubectl
 complete -F __start_kubectl k
 
 export FCEDIT=nvim
-
-# Scaleway CLI autocomplete initialization.
-eval "$(scw autocomplete script shell=zsh)"
