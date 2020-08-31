@@ -73,6 +73,7 @@ plugins=(
     kube-ps1
     helm
     docker
+    aws
 )
 
 export EDITOR=nvim
@@ -144,3 +145,6 @@ alias k=kubectl
 complete -F __start_kubectl k
 
 export FCEDIT=nvim
+
+# Scaleway CLI autocomplete initialization.
+eval "$(scw autocomplete script shell=zsh)"

@@ -19,7 +19,7 @@ fi
 
 yay -S zsh zsh-completions oh-my-zsh-git fzf \
 	monaco-powerline-font-git otf-sfmono ttf-google-sans ttf-material-icons-git ttf-font-awesome ttf-ionicons \
-	firefox python zsh-dircolors-solarized
+	firefox python zsh-dircolors-solarized go
 
 # Symlink bash config file
 
