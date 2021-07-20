@@ -6,7 +6,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 # Necessaries packages
 
-sudo pacman -S --needed neovim tmux scrot imagemagick base-devel rxvt-unicode
+sudo pacman -S --needed --noconfirm neovim tmux scrot imagemagick base-devel rxvt-unicode
 
 # Yay installation for yaourt packages
 
@@ -20,6 +20,10 @@ fi
 yay -S zsh zsh-completions oh-my-zsh-git fzf \
 	ttf-google-sans ttf-material-icons-git ttf-font-awesome ttf-ionicons \
 	firefox python zsh-dircolors-solarized go
+
+mkdir -p ~/.oh-my-zsh/custom/plugins
+
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 
 # Symlink bash config file
 
