@@ -160,8 +160,6 @@ set hidden
 "" Searching
 set hlsearch
 set incsearch
-set ignorecase
-set smartcase
 
 set fileformats=unix,dos,mac
 
@@ -273,6 +271,7 @@ let g:NERDTreeWinSize = 50
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlite
 nnoremap <silent> <F2> :NERDTreeFind<CR>
 nnoremap <silent> <F3> :NERDTreeToggle<CR>
+let NERDTreeShowHidden=1
 
 " grep.vim
 nnoremap <silent> <leader>f :Rgrep<CR>

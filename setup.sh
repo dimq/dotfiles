@@ -18,7 +18,7 @@ then
 fi
 
 yay -S zsh zsh-completions oh-my-zsh-git fzf \
-	otf-sfmono ttf-google-sans ttf-font-awesome ttf-ionicons \
+	ttf-google-sans ttf-material-icons-git ttf-font-awesome ttf-ionicons \
 	firefox python zsh-dircolors-solarized go
 
 # Symlink bash config file

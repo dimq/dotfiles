@@ -74,6 +74,8 @@ plugins=(
     helm
     docker
     aws
+    asdf
+    zsh-autosuggestions
 )
 
 export EDITOR=nvim
@@ -142,3 +144,7 @@ alias k=kubectl
 complete -F __start_kubectl k
 
 export FCEDIT=nvim
+
+export PATH="${PATH}:${HOME}/.krew/bin"
+
+alias noti='noti -f /home/b0dian/noti.yaml -g'
