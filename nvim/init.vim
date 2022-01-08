@@ -21,6 +21,8 @@ if !filereadable(vimplug_exists)
   autocmd VimEnter * PlugInstall
 endif
 
+let g:polyglot_disabled = ['python']
+
 " Required:
 call plug#begin(expand('~/.config/nvim/plugged'))
 
@@ -93,13 +95,6 @@ Plug 'mattn/emmet-vim'
 "" Javascript Bundle
 Plug 'jelera/vim-javascript-syntax'
 
-
-" python
-"" Python Bundle
-" Plug 'davidhalter/jedi-vim'
-" Plug 'raimon49/requirements.txt.vim', {'for': 'requirements'}
-
-
 " rust
 " Vim racer
 Plug 'racer-rust/vim-racer'
@@ -107,16 +102,18 @@ Plug 'racer-rust/vim-racer'
 " Rust.vim
 Plug 'rust-lang/rust.vim'
 
-if has('nvim')
-  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-else
-  Plug 'Shougo/deoplete.nvim'
-  Plug 'roxma/nvim-yarp'
-  Plug 'roxma/vim-hug-neovim-rpc'
-  Plug 'deoplete-plugins/deoplete-go', { 'do': 'make'}
-endif
-
 Plug 'jodosha/vim-godebug' " Debugger integration via delve
+
+"  LanguageClient-neovim
+Plug 'autozimu/LanguageClient-neovim', {
+    \ 'branch': 'next',
+    \ 'do': 'bash install.sh',
+    \ }
+
+Plug 'buoto/gotests-vim'
+
+" Language tools
+Plug 'dpelle/vim-LanguageTool'
 
 
 "*****************************************************************************
@@ -420,12 +417,6 @@ noremap YY "+y<CR>
 noremap <leader>p "+gP<CR>
 noremap XX "+x<CR>
 
-if has('macunix')
-  " pbcopy for OSX copy/paste
-  vmap <C-x> :!pbcopy<CR>
-  vmap <C-c> :w !pbcopy<CR><CR>
-endif
-
 "" Buffer nav
 noremap <leader>z :bp<CR>
 noremap <leader>q :bp<CR>
@@ -452,9 +443,6 @@ vmap > >gv
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
 
-"" Open current line on GitHub
-nnoremap <Leader>o :.Gbrowse<CR>
-
 "*****************************************************************************
 "" Custom configs
 "*****************************************************************************
@@ -479,10 +467,13 @@ endfunction
 let g:go_list_type = "quickfix"
 let g:go_fmt_command = "goimports"
 let g:go_fmt_fail_silently = 1
+let g:go_def_mode='gopls'
+let g:go_info_mode='gopls'
 
 let g:go_highlight_types = 1
 let g:go_highlight_fields = 1
 let g:go_highlight_functions = 1
+let g:go_highlight_function_calls = 1
 let g:go_highlight_methods = 1
 let g:go_highlight_operators = 1
 let g:go_highlight_build_constraints = 1
@@ -493,14 +484,21 @@ let g:go_highlight_array_whitespace_error = 0
 let g:go_highlight_trailing_whitespace_error = 0
 let g:go_highlight_extra_types = 1
 
-autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4 softtabstop=4
+" disable all linters as that is taken care of by coc.nvim
+let g:go_diagnostics_enabled = 0
+let g:go_metalinter_enabled = []
 
-augroup completion_preview_close
-  autocmd!
-  if v:version > 703 || v:version == 703 && has('patch598')
-    autocmd CompleteDone * if !&previewwindow && &completeopt =~ 'preview' | silent! pclose | endif
-  endif
-augroup END
+" don't jump to errors after metalinter is invoked
+let g:go_jump_to_error = 0
+
+" automatically highlight variable your cursor is on
+let g:go_auto_sameids = 0
+
+" disable vim-go :GoDef short cut (gd)
+" this is handled by LanguageClient [LC]
+let g:go_def_mapping_enabled = 0
+
+autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4 softtabstop=4
 
 augroup go
 
@@ -576,7 +574,6 @@ let g:airline#extensions#virtualenv#enabled = 1
 
 " Syntax highlight
 " Default highlight is better than polyglot
-let g:polyglot_disabled = ['python']
 let python_highlight_all = 1
 let g:python3_host_prog = '/usr/bin/python'
 
@@ -638,27 +635,70 @@ else
   let g:airline_symbols.linenr = ''
 endif
 
-if has('nvim')
-    " Enable deoplete on startup
-    let g:deoplete#enable_at_startup = 1
-    let g:deoplete#complete_method = "omnifunc"
-    call deoplete#custom#option('omni_patterns', {
-\ 'go': '[^. *\t]\.\w*',
-\})
-    let g:deoplete#sources#go#gocode_binary = $GOPATH.'/bin/gocode'
-let g:deoplete#sources#go#sort_class = ['package', 'func', 'type', 'var', 'const']
+" LanguageClient-neovim config
 
-    inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-    inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-    imap <expr><CR> neosnippet#expandable() ? "\<Plug>(neosnippet_expand)" : pumvisible() ?
-\ "\<C-y>" : "\<CR>"
-endif
+" Required for operations modifying multiple buffers like rename.
+set hidden
+"set completefunc=LanguageClient#complete
+"set omnifunc=LanguageClient#omniComplete
+
+" Launch gopls when Go files are in use
+let g:LanguageClient_serverCommands = {
+        \ 'rust': ['rustup', 'run', 'stable', 'rls'],
+        \ 'go': {
+        \   'name': 'gopls',
+        \   'command': ['gopls'],
+        \   'initializationOptions': {
+        \     'usePlaceholders': v:true,
+        \     'codelens': {
+        \       'generate': v:true,
+        \       'test': v:true,
+        \     },
+        \   },
+        \ },
+        \}
+
+let g:LanguageClient_enableExtensions = {
+    \ 'go': v:true,
+    \ 'rust': v:true,
+    \ }
+
+nmap <F5> <Plug>(lcn-menu)
+
+" Run gofmt on save
+autocmd BufWritePre *.go :call LanguageClient#textDocument_formatting_sync()
+nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
+nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
+nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
 
 
-set completeopt=longest,menuone
+" Use <Tab> and <S-Tab> to navigate through popup menu
+inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
+" Set completeopt to have a better completion experience
+set completeopt+=preview
+autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
+
+" Avoid showing message extra message when using completion
+set shortmess+=c
+
+let g:completion_enable_auto_popup = 1
+let g:LanguageClient_completionPreferTextEdit = 1
+
+" " Use tab for trigger completion with characters ahead and navigate.
+" " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
+inoremap <silent><expr> <TAB>
+            \ pumvisible() ? "\<C-n>" :
+            \ <SID>check_back_space() ? "\<TAB>" :
+            \ "\<C-x>\<C-o>"
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-inoremap <expr> <C-n> pumvisible() ? '<C-n>' :
-  \ '<C-n><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
 
-inoremap <expr> <M-,> pumvisible() ? '<C-n>' :
-  \ '<C-x><C-o><C-n><C-p><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Language tools
+let g:languagetool_jar='/usr/bin/languagetool'

@@ -148,3 +148,13 @@ export FCEDIT=nvim
 export PATH="${PATH}:${HOME}/.krew/bin"
 
 alias noti='noti -f /home/b0dian/noti.yaml -g'
+
+alias cat='bat'
+alias ls='exa'
+
+# add Pulumi to the PATH
+export PATH=$PATH:$HOME/.pulumi/bin
+
+export BROWSER=/usr/bin/google-chrome-stable
+
+export GOPRIVATE=gitlab.infra.online.net
