@@ -95,14 +95,11 @@ Plug 'mattn/emmet-vim'
 "" Javascript Bundle
 Plug 'jelera/vim-javascript-syntax'
 
-" rust
-" Vim racer
-Plug 'racer-rust/vim-racer'
-
 " Rust.vim
 Plug 'rust-lang/rust.vim'
 
-Plug 'jodosha/vim-godebug' " Debugger integration via delve
+" golang debugger
+Plug 'sebdah/vim-delve'
 
 "  LanguageClient-neovim
 Plug 'autozimu/LanguageClient-neovim', {
@@ -115,6 +112,10 @@ Plug 'buoto/gotests-vim'
 " Language tools
 Plug 'dpelle/vim-LanguageTool'
 
+Plug 'buoto/gotests-vim'
+
+"Multi cursor for Jual
+Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 
 "*****************************************************************************
 "*****************************************************************************
@@ -175,7 +176,7 @@ let g:session_command_aliases = 1
 "*****************************************************************************
 "" Visual Settings
 "*****************************************************************************
-syntax on
+syntax enable
 set ruler
 set number
 set relativenumber
@@ -198,9 +199,13 @@ else
 
   " IndentLine
   let g:indentLine_enabled = 1
-  let g:indentLine_concealcursor = 0
+  let g:indentLine_concealcursor = 'inc'
+  let g:indentLine_conceallevel = 2
   let g:indentLine_char = '┆'
   let g:indentLine_faster = 1
+  let g:indentLine_bufNameExclude = ['_.*', 'NERD_tree.*', '*.wiki']
+  let g:indentLine_fileTypeExclude = ['vimwiki']
+  let g:indentLine_bufTypeExclude = ['help', 'terminal', 'vimwiki']
 
   
 endif
@@ -578,15 +583,6 @@ let python_highlight_all = 1
 let g:python3_host_prog = '/usr/bin/python'
 
 
-" rust
-" Vim racer
-au FileType rust nmap gd <Plug>(rust-def)
-au FileType rust nmap gs <Plug>(rust-def-split)
-au FileType rust nmap gx <Plug>(rust-def-vertical)
-au FileType rust nmap <leader>gd <Plug>(rust-doc)
-
-
-
 "*****************************************************************************
 "*****************************************************************************
 
@@ -644,7 +640,7 @@ set hidden
 
 " Launch gopls when Go files are in use
 let g:LanguageClient_serverCommands = {
-        \ 'rust': ['rustup', 'run', 'stable', 'rls'],
+        \ 'rust': ['rust-analyzer'],
         \ 'go': {
         \   'name': 'gopls',
         \   'command': ['gopls'],
@@ -656,6 +652,10 @@ let g:LanguageClient_serverCommands = {
         \     },
         \   },
         \ },
+        \ 'javascript': ['typescript-language-server', '--stdio'],
+        \ 'typescript': ['typescript-language-server', '--stdio'],
+        \ 'javascript.jsx': ['typescript-language-server', '--stdio'],
+        \ 'typescript.tsx': ['typescript-language-server', '--stdio'],
         \}
 
 let g:LanguageClient_enableExtensions = {
@@ -702,3 +702,5 @@ endfunction
 
 " Language tools
 let g:languagetool_jar='/usr/bin/languagetool'
+
+autocmd BufWritePre * :%s/\s\+$//e
